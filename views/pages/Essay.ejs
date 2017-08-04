@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+<style>
+        .ulheader {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .liheader {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+    
+        .active {
+            background-color: #4CAF50;
+            }
+    
+        body { font: 12px Arial;}
+    </style>
+    <% include ../partials/header.ejs %>
+    </head>
+    
+    <body position="static">
+        
+        </br>
+        <ul class="ulheader">
+      <li class="liheader"><a href="DeathCausesUS">Home</a></li>
+      <li class="liheader"><a href="DeathCausesUS">Visualizations</a></li>
+      <li class="liheader"><a class="active" href="Essay">Essay</a></li>
+    </ul>
+        
+        <div style="position:absolute; top:105px; left:100px; width:1000px">
+            
+    <p><span style="font-size: 18pt;"><strong>Final Project Essay</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Structure</strong></span></p>
+<p><span style="font-size: 12pt;">The narrative visualization followed in this project is of <span style="text-decoration: underline;">Dril Down Story</span> type, there's a single overview that you start from and then you can dril down into it to get a lot of different information.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Scenes</strong></span></p>
+<p><span style="font-size: 12pt;">Each scene is represented as a coordinated set of charts which are represented by :&nbsp;</span></p>
+<ul>
+<li><span style="font-size: 12pt;"><strong>Line Chart</strong>: Death count for a specific death cause over time&nbsp;</span></li>
+<li><span style="font-size: 12pt;"><strong>Treemap</strong>: Distribution of that specific death cause over U.S.A states for a chosen year&nbsp;</span></li>
+<li><span style="font-size: 12pt;"><strong>Pie Chart</strong>: Locality distribution for the same death cause for the same chosen year in a certain state</span></li>
+</ul>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Annotations</strong></span></p>
+<p><span style="font-size: 12pt;">All anotations are consistent among charts, they are represented in the following positions in the visualization :</span></p>
+<ul>
+<li><span style="font-size: 12pt;">Legend used for death causes coloring. When clicked, a specific line is active and the rest are greyed out</span></li>
+<li><span style="font-size: 12pt;">An x that appears on a specific point on the line chart when you click&nbsp;</span></li>
+<li><span style="font-size: 12pt;">A line that is drawn horizontally from the x point to the year in the x axis to denote a selected year from the line chart</span></li>
+<li><span style="font-size: 12pt;">Tooltip when you hover over a certain death cause in th eline chart to show the death cause and number of death counts&nbsp;</span></li>
+<li><span style="font-size: 12pt;">Another tooltip to show state name and death count in the treemap</span></li>
+<li><span style="font-size: 12pt;">Final tooltip to show locality death count in the pie chart</span></li>
+<li><span style="font-size: 12pt;">Legend used for the pie chart to color metropolitan versus nonmetropolitan locality distribution</span></li>
+</ul>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Parameters &amp;&nbsp;</strong><strong>Triggers</strong></span></p>
+<ol>
+<li><span style="font-size: 12pt;"><strong>Death cause parameter</strong>, when a specific death cause is clicked on in the line chart, the following actions are triggered:</span>
+<ul>
+<li><span style="font-size: 12pt;">Any drawn charts will be cleared out as clicking on this parameter represents a new dril down story</span></li>
+<li><span style="font-size: 12pt;">All line charts are greyed out except for the one selected</span></li>
+</ul>
+</li>
+<li><span style="font-size: 12pt;"><strong>Year parameter</strong>, when the user clicks on any point on any of the lines in the line chart, the following actions are triggered:</span>
+<ul>
+<li><span style="font-size: 12pt;">Parameter 1 works along with its triggers depending on which line was clicked on</span></li>
+<li><span style="font-size: 12pt;">The nearest year is selected in the x axis and it gets the same color as the selected death cause,&nbsp;previous one is cleared</span></li>
+<li><span style="font-size: 12pt;">A line is drawn from the selected point to the x axis for more emphasis on the year,&nbsp;previous one is cleared</span></li>
+<li><span style="font-size: 12pt;">An x is drawn onto the point, previous one is cleared</span></li>
+<li><span style="font-size: 12pt;">A new treemap is drawn (or updated) with the selected point death cause and year</span></li>
+<li><span style="font-size: 12pt;">The treemap title gets rendered or updated according to the year and death cause as well</span></li>
+</ul>
+</li>
+<li><span style="font-size: 12pt;"><strong>Treemap State parameter</strong>, when the user clicks on a specific state in the treemap, the following actions are triggered:</span>
+<ul>
+<li><span style="font-size: 12pt;">A pie chart is drawn to represent the state locality distribution based on the selected state along with the parameters concluded so far by the line chart and tree map (death cause, year, state)</span></li>
+<li><span style="font-size: 12pt;">The pie chart title gets rendered or updated according to the year, death cause, and state as well</span></li>
+<li><span style="font-size: 12pt;">A drop down list with a list of states is created and set to the selected state</span></li>
+</ul>
+</li>
+<li><span style="font-size: 12pt;"><strong>Pie Chart State parameter, </strong>the same impact as the previous, it's triggered by the other state parameter and changing it causes a change to the locality distribution presented</span></li>
+</ol>
+<p>&nbsp;</p>
+<p><span style="font-size: 18.6667px;"><strong>Events Communication</strong></span></p>
+<p>Events are communicated to the user by making the mouse looks clickable in the line chart and treemap, in addition to the existence of a dropwon list for the pie chart which is familiar to the user as an input method.</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Other Notes</strong></span></p>
+<p><span style="font-size: 14pt;"><span style="font-size: 12pt;">In order to achieve a good experience while selecting a death cause from the line chart, an algorithm was executed to measure the distance from the user click position or hover location and the lines in the graph, this was specially needed for the case of "Unintentional Injury" and "Chronic Lower Respiratory Disease" as both lines are very close to each other.</span></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+    </div>
+    </body>

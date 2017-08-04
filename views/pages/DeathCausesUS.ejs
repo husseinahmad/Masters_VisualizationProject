@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+
+    <style>
+    
+    .node {
+     /* border: solid 1px white;*/
+        line-height: 0.95;
+        overflow: hidden;
+        position: absolute; 
+        border-radius: 1px;
+        background-image: -webkit-linear-gradient(top, hsla(0,0%,100%,.3), hsla(0,0%,100%,0));
+        background-image:    -moz-linear-gradient(top, hsla(0,0%,100%,.3), hsla(0,0%,100%,0));
+        background-image:     -ms-linear-gradient(top, hsla(0,0%,100%,.3), hsla(0,0%,100%,0));
+        background-image:      -o-linear-gradient(top, hsla(0,0%,100%,.3), hsla(0,0%,100%,0));
+        background-image:         linear-gradient(top, hsla(0,0%,100%,.3), hsla(0,0%,100%,0)); 
+        text-shadow: -1px -1px 2px hsla(0,0%,100%,0.25),
+            -1px -1px 2px hsla(0,0%,100%,0.25),
+            -1px 1px 2px hsla(0,0%,100%,0.25),
+            1px -1px 2px hsla(0,0%,100%,0.25),
+            -1px 0px 2px hsla(0,0%,100%,0.25),
+            1px 0px 2px hsla(0,0%,100%,0.25);
+    }
+
+    .node div {
+       padding: 2px 4%;
+    }
+        
+        body { font: 12px Arial;}
+
+    
+        
+        #tooltip {
+            opacity: 0;
+            position: absolute;
+            text-align: left;
+            width: auto; height: auto;
+            border: 0px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font: 12px Arial;
+            border-radius: 2px;
+            z-index: 100;
+            cursor: default;
+            pointer-events: none;
+        }
+        
+        .mainDiv2 {
+            display: block; 
+            position:relative; 
+            float:left; 
+            clear:both
+        }
+        
+        .mainDiv {
+            position:absolute; 
+           /* height:1000px;
+            width:1000px;*/
+        }
+        
+    </style>
+    
+    <style>
+          .axis path,
+          .axis line{
+            fill: none;
+            stroke: black;
+          }
+
+          .line{
+            fill: none;
+            stroke-width: 2px;
+          }
+
+          .tick text{
+            font-size: 12px;
+          }
+
+          .tick line{
+            opacity: 0.2;
+          }
+        
+       
+        .legend {
+            padding: 5px;
+            font: 12px sans-serif;
+            background: yellow;
+            box-shadow: 2px 2px 1px #888;
+        }
+        
+        #Test
+        {
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: auto;
+            white-space: nowrap; /* Thanks to Herb Caudill comment */
+            line-height: 0.95;
+        overflow: hidden;
+        position: absolute; 
+        border-radius: 1px;
+        }
+
+    </style>
+  
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+        
+        .active {
+            background-color: #4CAF50;
+            }
+        
+        .narrative {
+            /*background-color: black;*/
+            color: black;
+            font-weight:bold;
+            width:400px;
+            font-size:16px;
+            text-align: justify;
+            text-justify: inter-word;
+            }
+    </style>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body position="static">
+    
+    <ul>
+      <li><a href="DeathCausesUS">Home</a></li>
+      <li><a class="active" href="DeathCausesUS">Visualizations</a></li>
+      <li><a href="Essay">Essay</a></li>
+    </ul>
+
+    <div id="tooltip" style="opacity: 0"  top="1000" ></div>
+    <div id="Test"></div>
+    
+    <h2 style="padding-left: 70px; color:black; text-weight:bold">Top Death Causes In the US Over Time</h2>
+    <div id="lineDiv"></div>
+    <h2 style="padding-left: 70px; color:black; text-weight:bold" id="treemapH"></h2>
+    <div id="treemapDiv" style="position:absolute; top:5px; left:100px" ></div>
+    <h2 style="padding-left: 70px; color:black; text-weight:bold; position:absolute; top:1330px;" id="piechartH"></h2>
+    <div id="piechartDiv" style="position:relative; top:720px; left:100px"></div>
+    <input type="hidden" id="hiddenCause" value="">
+    <input type="hidden" id="hiddenYear" value="">
+    
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--script src="http://localhost:5000/dataOperations.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://localhost:5000/data.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://localhost:5000/charts.js" type="text/javascript" charset="utf-8"></script-->
+    <script src="https://mysterious-coast-61162.herokuapp.com/data.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://mysterious-coast-61162.herokuapp.com/dataOperations.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://mysterious-coast-61162.herokuapp.com/charts.js" type="text/javascript" charset="utf-8"></script>
+</body>
+            </html>
+
+<script>
+   InitCharts();
+</script>
+      
+   
